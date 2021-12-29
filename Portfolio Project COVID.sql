@@ -66,9 +66,7 @@ WHERE continent IS NOT NULL
 	--GROUP BY date
 	ORDER BY 1,2
 
-
 --Looking at Total Population vs Vaccinations
-
 
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CONVERT(float,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location,dea.date) RollingVaccinatedPeople,(RollingVaccinatedPeople / population) * 100 TotalVaccinatedPeople
 	FROM PortfolioProject..CovidDeaths dea
