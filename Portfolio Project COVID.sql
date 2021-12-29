@@ -1,40 +1,10 @@
+
+
+
 SELECT * 
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL
 ORDER BY 3,4 DESC
-
---SELECT * 
---FROM PortfolioProject..CovidVaccinations
---ORDER BY 3,4 DESC
-
---Playing around with CTE and PARTITION BY 
---WITH CTE_Covid AS 
---(SELECT Location,population,date,total_cases,COUNT(total_cases) OVER (PARTITION BY total_cases) TotalCasesCount,total_deaths,(total_deaths / total_cases) *100 DeathPercentage
---FROM PortfolioProject..CovidDeaths
---WHERE Location = 'United States'
---)
---SELECT *
---FROM CTE_Covid
---ORDER BY 3 DESC,4 DESC 
-
------------------------------
-
-
---353948 WHERE date = '2020-12-31' 807952 WHERE date = '2021-12-20'
-
---SELECT total_deaths 
---FROM PortfolioProject..CovidDeaths
---WHERE date = '2020-12-31' AND location = 'United States'
-
-
---SELECT total_deaths 
---FROM PortfolioProject..CovidDeaths
---WHERE date = '2021-12-20' AND location = 'United States'
-
---SELECT DIFFERENCE(353948,807952)
-
--------------------------------
-
 
 --Data that is going to be used
 
@@ -74,7 +44,7 @@ ORDER BY TotalDeathCount DESC
 
 --Start using CONTINENT
 
---Continent with Highest Deat Count  
+--Continent with Highest Death Count  
 
 SELECT continent,MAX(CAST(total_deaths AS int)) TotalDeathCount
 FROM PortfolioProject..CovidDeaths
@@ -114,11 +84,7 @@ JOIN PortfolioProject..CovidVaccinations vac
 WHERE dea.continent IS NOT NULL
 ORDER BY 2,3
 
-
-
---USE CTE 
-
-
+--Use CTE to perform calculation on Partitin By from the previous query
 
 WITH PopvsVac (continent,location,date,population,new_vaccinations,RollingVaccinatedPeople) 
 AS
@@ -136,7 +102,7 @@ FROM PopvsVac
 --WHERE location = 'United States'
 --ORDER BY 3 DESC
 
---TEMP TABLE
+--TEMP TABLE to perform calculation on Partitin By from the previous query
 
 DROP TABLE IF EXISTS #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated
