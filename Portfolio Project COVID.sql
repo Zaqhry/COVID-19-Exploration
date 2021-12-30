@@ -21,7 +21,7 @@ FROM Portfolio..CovidDeaths
 SELECT location,
        date,
        total_cases,total_deaths,
-       (total_deaths / total_cases) *100 DeathPercentage
+       (total_deaths / total_cases) * 100 DeathPercentage
 FROM Portfolio..CovidDeaths
 WHERE location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
@@ -32,7 +32,7 @@ SELECT location,
        date,
        total_cases,
        population,
-       (total_cases / population) *100 InfectedPercentagePopulation
+       (total_cases / population) * 100 InfectedPercentagePopulation
 FROM Portfolio..CovidDeaths
 WHERE Location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
@@ -42,7 +42,7 @@ WHERE Location = 'United States' AND continent IS NOT NULL
 SELECT location,
        population, 
        MAX(total_cases) HighestInfectionCount, 
-       MAX(total_cases / population) *100 InfectedPercentagePopulation
+       MAX(total_cases / population) * 100 InfectedPercentagePopulation
 FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	GROUP BY location,population
