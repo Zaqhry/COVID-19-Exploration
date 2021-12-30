@@ -2,7 +2,7 @@
 
 
 SELECT * 
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	ORDER BY 3,4 DESC
 
@@ -13,7 +13,7 @@ SELECT location,
        total_cases,new_cases,
        total_deaths,
        population
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 	ORDER BY 1,2 
 
 --Total Cases vs. Total Deaths
@@ -22,7 +22,7 @@ SELECT location,
        date,
        total_cases,total_deaths,
        (total_deaths / total_cases) *100 DeathPercentage
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
 
@@ -33,7 +33,7 @@ SELECT location,
        total_cases,
        population,
        (total_cases / population) *100 InfectedPercentagePopulation
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE Location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
 
@@ -43,7 +43,7 @@ SELECT location,
        population, 
        MAX(total_cases) HighestInfectionCount, 
        MAX(total_cases / population) *100 InfectedPercentagePopulation
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	GROUP BY location,population
 	ORDER BY 4 DESC
@@ -51,7 +51,7 @@ WHERE continent IS NOT NULL
 --Country with Highest Death Count
 
 SELECT location,MAX(CAST(total_deaths AS int)) TotalDeathCount
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	GROUP BY location
 	ORDER BY TotalDeathCount DESC
@@ -61,7 +61,7 @@ WHERE continent IS NOT NULL
 --Continent with Highest Death Count  
 
 SELECT continent,MAX(CAST(total_deaths AS int)) TotalDeathCount
-FROM PortfolioProject..CovidDeaths
+FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL AND continent NOT IN ('World')
 	GROUP BY continent
 	ORDER BY TotalDeathCount DESC
@@ -73,7 +73,7 @@ SELECT date,
        SUM(CAST(new_deaths AS int)) total_deaths, 
        SUM(CAST(new_deaths AS int)) / SUM(new_cases) * 100 DeathPercentage 
        --,total_cases,total_deaths,(total_deaths / total_cases) * 100 DeathPercentage
-FROM PortfolioProject..CovidDeaths 
+FROM Portfolio..CovidDeaths 
 WHERE continent IS NOT NULL --AND continent = 'North America'
 	GROUP BY date
 	ORDER BY 1 DESC,2
@@ -82,7 +82,7 @@ SELECT SUM(new_cases) total_cases,
        SUM(CAST(new_deaths AS int)) total_deaths, 
        SUM(CAST(new_deaths AS int)) / SUM(new_cases) * 100 DeathPercentage 
        --,total_cases,total_deaths,(total_deaths / total_cases) * 100 DeathPercentage
-FROM PortfolioProject..CovidDeaths 
+FROM Portfolio..CovidDeaths 
 WHERE continent IS NOT NULL 
 	--GROUP BY date
 	ORDER BY 1,2
@@ -96,8 +96,8 @@ SELECT dea.continent,
        vac.new_vaccinations, 
        SUM(CONVERT(float,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location,dea.date) RollingVaccinatedPeople,
        (RollingVaccinatedPeople / population) * 100 TotalVaccinatedPeople
-FROM PortfolioProject..CovidDeaths dea
-JOIN PortfolioProject..CovidVaccinations vac
+FROM Portfolio..CovidDeaths dea
+JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
@@ -115,8 +115,8 @@ SELECT
 	dea.population, 
 	vac.new_vaccinations, 
 	SUM(CONVERT(float,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location,dea.date) RollingVaccinatedPeople
-FROM PortfolioProject..CovidDeaths dea
-JOIN PortfolioProject..CovidVaccinations vac
+FROM Portfolio..CovidDeaths dea
+JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
@@ -146,8 +146,8 @@ SELECT dea.continent,
        dea.population, 
        vac.new_vaccinations, 
        SUM(CONVERT(float,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location,dea.date) RollingVaccinatedPeople
-FROM PortfolioProject..CovidDeaths dea
-JOIN PortfolioProject..CovidVaccinations vac
+FROM Portfolio..CovidDeaths dea
+JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
@@ -166,8 +166,8 @@ SELECT dea.continent,
        dea.population, 
        vac.new_vaccinations, 
        SUM(CONVERT(float,vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location,dea.date) RollingVaccinatedPeople
-FROM PortfolioProject..CovidDeaths dea
-JOIN PortfolioProject..CovidVaccinations vac
+FROM Portfolio..CovidDeaths dea
+JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
