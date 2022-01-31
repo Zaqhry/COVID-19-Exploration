@@ -1,12 +1,19 @@
 
 
 
+--Covid-19 Project 
+
+-------------------------------------------------------------
+
 SELECT * 
 FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
-	ORDER BY 3,4 DESC
+	ORDER BY 3,
+		 4 DESC
+	
+-------------------------------------------------------------
 
---Data that is going to be used
+--Data that will be used 
 
 SELECT location,
        date,
@@ -14,7 +21,10 @@ SELECT location,
        total_deaths,
        population
 FROM Portfolio..CovidDeaths
-	ORDER BY 1,2 
+	ORDER BY 1,
+		 2 
+		 
+		 
 
 --Total Cases vs. Total Deaths
 
@@ -26,7 +36,9 @@ FROM Portfolio..CovidDeaths
 WHERE location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
 
---Shows the percentage of the population that contracted Covid
+
+
+--Percentage of Population that has contracted Covid 
 
 SELECT location,
        date,
@@ -36,8 +48,10 @@ SELECT location,
 FROM Portfolio..CovidDeaths
 WHERE Location = 'United States' AND continent IS NOT NULL
 	ORDER BY 2 DESC
+	
+	
 
---Country with Highest Infection Count compared to Population
+--Country with Highest Infection Count compared to the Population
 
 SELECT location,
        population, 
@@ -47,8 +61,11 @@ FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	GROUP BY location,population
 	ORDER BY 4 DESC
+	
+	
+	
 
---Country with Highest Death Count
+--Country with the Highest Death Count
 
 SELECT location,MAX(CAST(total_deaths AS int)) TotalDeathCount
 FROM Portfolio..CovidDeaths
@@ -56,15 +73,20 @@ WHERE continent IS NOT NULL
 	GROUP BY location
 	ORDER BY TotalDeathCount DESC
 
+
+
 --Start using CONTINENT
 
---Continent with Highest Death Count  
+--Continent with the Highest Death Count  
 
 SELECT continent,MAX(CAST(total_deaths AS int)) TotalDeathCount
 FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL AND continent NOT IN ('World')
 	GROUP BY continent
 	ORDER BY TotalDeathCount DESC
+	
+	
+	
 	
 --GLOBAL NUMBERS
 
@@ -76,7 +98,10 @@ SELECT date,
 FROM Portfolio..CovidDeaths 
 WHERE continent IS NOT NULL --AND continent = 'North America'
 	GROUP BY date
-	ORDER BY 1 DESC,2
+	ORDER BY 1 DESC,
+		 2
+		 
+		 
 
 SELECT SUM(new_cases) total_cases,
        SUM(CAST(new_deaths AS int)) total_deaths, 
@@ -85,9 +110,12 @@ SELECT SUM(new_cases) total_cases,
 FROM Portfolio..CovidDeaths 
 WHERE continent IS NOT NULL 
 	--GROUP BY date
-	ORDER BY 1,2
+	ORDER BY 1,
+		 2
+		 
+		 
 
---Looking at Total Population vs Vaccinations
+--Total Population vs Vaccinations
 
 SELECT dea.continent, 
        dea.location, 
@@ -101,7 +129,10 @@ JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
-	ORDER BY 2,3
+	ORDER BY 2,
+		 3
+
+
 
 --Use CTE to perform calculation on Partitin By from the previous query
 
@@ -125,6 +156,8 @@ SELECT *, (RollingVaccinatedPeople / population) * 100 TotalVaccinatedPeople
 FROM PopvsVac
 --WHERE location = 'United States'
 	--ORDER BY 3 DESC
+	
+	
 
 --TEMP TABLE to perform calculation on Partitin By from the previous query
 
@@ -139,6 +172,8 @@ new_vaccinations numeric,
 RollingVaccinatedPeople numeric
 )
 
+
+
 INSERT INTO #PercentPopulationVaccinated
 SELECT dea.continent, 
        dea.location, 
@@ -152,12 +187,18 @@ JOIN Portfolio..CovidVaccinations vac
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
 
+
+
+
 SELECT *, (RollingVaccinatedPeople / population) * 100 TotalVaccinatedPeople
 FROM #PercentPopulationVaccinated
 --WHERE location = 'United States'
 	--ORDER BY 3 DESC
 
--- Creating Views in order to import into Tableau
+
+
+
+--Percentage of Vaccinated Population (Creating Views in order to import into Tableau)
 
 CREATE VIEW VaccinatedPopulationPercent AS
 SELECT dea.continent, 
@@ -171,6 +212,8 @@ JOIN Portfolio..CovidVaccinations vac
 	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL
+
+
 
 SELECT * 
 FROM VaccinatedPopulationPercent
