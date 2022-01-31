@@ -13,11 +13,12 @@ WHERE continent IS NOT NULL
 	
 -------------------------------------------------------------
 
---Data that will be used 
+--Data that will be used (cases & deaths for each date) 
 
 SELECT location,
        date,
-       total_cases,new_cases,
+       total_cases,
+       new_cases,
        total_deaths,
        population
 FROM Portfolio..CovidDeaths
@@ -26,7 +27,7 @@ FROM Portfolio..CovidDeaths
 		 
 		 
 
---Total Cases vs. Total Deaths
+--Total Cases vs. Total Deaths (location & date)
 
 SELECT location,
        date,
@@ -103,18 +104,6 @@ WHERE continent IS NOT NULL --AND continent = 'North America'
 		 
 		 
 
-SELECT SUM(new_cases) total_cases,
-       SUM(CAST(new_deaths AS int)) total_deaths, 
-       SUM(CAST(new_deaths AS int)) / SUM(new_cases) * 100 DeathPercentage 
-       --,total_cases,total_deaths,(total_deaths / total_cases) * 100 DeathPercentage
-FROM Portfolio..CovidDeaths 
-WHERE continent IS NOT NULL 
-	--GROUP BY date
-	ORDER BY 1,
-		 2
-		 
-		 
-
 --Total Population vs Vaccinations
 
 SELECT dea.continent, 
@@ -134,7 +123,7 @@ WHERE dea.continent IS NOT NULL
 
 
 
---Use CTE to perform calculation on Partitin By from the previous query
+--Use CTE to perform calculation on Partitin By from the previous query (rolling count of people vaccinated) 
 
 WITH PopvsVac (continent,location,date,population,new_vaccinations,RollingVaccinatedPeople) 
 AS
@@ -159,7 +148,7 @@ FROM PopvsVac
 	
 	
 
---TEMP TABLE to perform calculation on Partitin By from the previous query
+--TEMP TABLE to perform calculation on Partitin By from the previous query (rolling count of people vaccinated in temp table format) 
 
 DROP TABLE IF EXISTS #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated
