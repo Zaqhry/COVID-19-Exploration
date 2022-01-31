@@ -187,7 +187,7 @@ FROM #PercentPopulationVaccinated
 
 
 
---Percentage of Vaccinated Population (Creating Views in order to import into Tableau)
+--Percentage of Vaccinated Population (Creating View in order to import into Tableau)
 
 CREATE VIEW VaccinatedPopulationPercent AS
 SELECT dea.continent, 
