@@ -68,7 +68,8 @@ WHERE continent IS NOT NULL
 
 --Country with the Highest Death Count
 
-SELECT location,MAX(CAST(total_deaths AS int)) TotalDeathCount
+SELECT location,
+       MAX(CAST(total_deaths AS int)) TotalDeathCount
 FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL
 	GROUP BY location
@@ -80,7 +81,8 @@ WHERE continent IS NOT NULL
 
 --Continent with the Highest Death Count  
 
-SELECT continent,MAX(CAST(total_deaths AS int)) TotalDeathCount
+SELECT continent,
+       MAX(CAST(total_deaths AS int)) TotalDeathCount
 FROM Portfolio..CovidDeaths
 WHERE continent IS NOT NULL AND continent NOT IN ('World')
 	GROUP BY continent
@@ -123,7 +125,7 @@ WHERE dea.continent IS NOT NULL
 
 
 
---Use CTE to perform calculation on Partitin By from the previous query (rolling count of people vaccinated) 
+--Use CTE to perform calculation on Partition By from the previous query (rolling count of people vaccinated) 
 
 WITH PopvsVac (continent,location,date,population,new_vaccinations,RollingVaccinatedPeople) 
 AS
@@ -148,7 +150,7 @@ FROM PopvsVac
 	
 	
 
---TEMP TABLE to perform calculation on Partitin By from the previous query (rolling count of people vaccinated in temp table format) 
+--TEMP TABLE to perform calculation on Partition By from the previous query (rolling count of people vaccinated in temp table format) 
 
 DROP TABLE IF EXISTS #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated
